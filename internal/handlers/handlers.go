@@ -23,9 +23,9 @@ func HandleGetHTML(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(10 << 20) // 10 MB
 
 	// получаем файл из формы
-	file, _, err := r.FormFile("myFile")
+	file, _, err := r.FormFile("file")
 	if err != nil {
-		http.Error(w, "ошибка при получении файла", http.StatusConflict)
+		http.Error(w, "ошибка при получении файла", http.StatusBadGateway)
 		return
 	}
 	// закрываем файл
