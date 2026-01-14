@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"time"
@@ -21,32 +20,30 @@ func HandleGetHTML(w http.ResponseWriter, r *http.Request) {
 	// }
 	// defer file.Close()
 
-	r.ParseMultipartForm(10 << 20) // 10 MB
-
-	if r.MultipartForm != nil {
-		for k := range r.MultipartForm.File {
-			log.Printf("Ключ файла в форме: %s\n", k)
-		}
-	}
-	// получаем файл из формы
-	file, _, err := r.FormFile("file")
-	if err != nil {
-		http.Error(w, "ошибка при получении файла", http.StatusBadGateway)
-		return
-	}
-	// закрываем файл
-	defer file.Close()
-
-	// Чтение файла для парсинга
-	content, err := io.ReadAll(file)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-
-	// Передача информации клиенту
 	w.Header().Set("Content-Type", "text/html")
-	w.WriteHeader(http.StatusOK)
-	w.Write(content)
+	http.ServeFile(w, r, "index.html")
+
+	// r.ParseMultipartForm(10 << 20) // 10 MB
+
+	// // получаем файл из формы
+	// file, _, err := r.FormFile("file")
+	// if err != nil {
+	// 	http.Error(w, "ошибка при получении файла", http.StatusBadGateway)
+	// 	return
+	// }
+	// // закрываем файл
+	// defer file.Close()
+
+	// // Чтение файла для парсинга
+	// content, err := io.ReadAll(file)
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// }
+
+	// // Передача информации клиенту
+	// w.Header().Set("Content-Type", "text/html")
+	// w.WriteHeader(http.StatusOK)
+	// w.Write(content)
 
 }
 
