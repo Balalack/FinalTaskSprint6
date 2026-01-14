@@ -12,16 +12,16 @@ import (
 // Парсинг HTML файла и отправка содержимого клиенту
 func HandleGetHTML(w http.ResponseWriter, r *http.Request) {
 	// Путь к файлу для парсинга
-	// fileName := "index.html"
+	fileName := "index.html"
 
-	// file, err := os.Open(fileName)
-	// if err != nil {
-	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
-	// }
-	// defer file.Close()
+	file, err := os.Open(fileName)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	defer file.Close()
 
-	w.Header().Set("Content-Type", "text/html")
-	http.ServeFile(w, r, "index.html")
+	// w.Header().Set("Content-Type", "text/html")
+	// http.ServeFile(w, r, "index.html")
 
 	// r.ParseMultipartForm(10 << 20) // 10 MB
 
@@ -35,15 +35,15 @@ func HandleGetHTML(w http.ResponseWriter, r *http.Request) {
 	// defer file.Close()
 
 	// // Чтение файла для парсинга
-	// content, err := io.ReadAll(file)
-	// if err != nil {
-	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
-	// }
+	content, err := io.ReadAll(file)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 
-	// // Передача информации клиенту
-	// w.Header().Set("Content-Type", "text/html")
-	// w.WriteHeader(http.StatusOK)
-	// w.Write(content)
+	// Передача информации клиенту
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusOK)
+	w.Write(content)
 
 }
 
