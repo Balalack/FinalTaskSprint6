@@ -25,7 +25,7 @@ func HandleGetHTML(w http.ResponseWriter, r *http.Request) {
 	// получаем файл из формы
 	file, _, err := r.FormFile("myFile")
 	if err != nil {
-		http.Error(w, "ошибка при получении файла", http.StatusInternalServerError)
+		http.Error(w, "ошибка при получении файла", http.StatusConflict)
 		return
 	}
 	// закрываем файл
